@@ -1,0 +1,32 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 400px;
+}
+
+.text-dimgray{
+    color: #C2CAD0;
+}
+
+.text-lavanderGray {
+    color: #C2B9B0;
+}
+
+.text-patelBrown {
+    color: #7E685A;
+}
+
+.bg-pastelBrown {
+    color: #7E685A;
+}
+
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+}
