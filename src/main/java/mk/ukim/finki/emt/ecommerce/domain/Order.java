@@ -9,32 +9,19 @@ import java.util.List;
 
 /**
  * Order entity.
- * It keeps orders coming from the customers in the basket.
+ * It keeps orders coming from the customers basket.
  */
 @Data
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends Orderable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_seq")
     @SequenceGenerator(name = "orders_seq", sequenceName = "orders_seq", initialValue = 6, allocationSize = 1)
     private Long id;
-    private Double totalPrice;
-    private LocalDate date;
-    private String firstName;
-    private String lastName;
-    private String city;
-    private String address;
-    private String email;
-    private String phoneNumber;
-    private Integer postIndex;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<OrderItem> orderItems;
+    @OneToOne
+    private Cart cartId;
 
-    public Order() {
-        this.date = LocalDate.now();
-        this.orderItems = new ArrayList<>();
-    }
 }

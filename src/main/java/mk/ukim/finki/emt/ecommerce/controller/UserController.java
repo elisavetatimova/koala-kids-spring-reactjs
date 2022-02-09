@@ -2,6 +2,7 @@ package mk.ukim.finki.emt.ecommerce.controller;
 
 import mk.ukim.finki.emt.ecommerce.dto.order.OrderRequest;
 import mk.ukim.finki.emt.ecommerce.dto.order.OrderResponse;
+import mk.ukim.finki.emt.ecommerce.dto.order.OrderableResponse;
 import mk.ukim.finki.emt.ecommerce.dto.product.ProductResponse;
 import mk.ukim.finki.emt.ecommerce.dto.review.ReviewRequest;
 import mk.ukim.finki.emt.ecommerce.dto.user.UserRequest;
@@ -54,11 +55,20 @@ public class UserController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<OrderResponse> postOrder(@Valid @RequestBody OrderRequest order, BindingResult bindingResult) {
+    public ResponseEntity<OrderableResponse> postOrder(@Valid @RequestBody OrderRequest order, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
             return ResponseEntity.ok(orderMapper.postOrder(order));
+        }
+    }
+
+    @PostMapping("/order-from-cart")
+    public ResponseEntity<OrderableResponse> postOrder(@RequestBody Long cartId, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return ResponseEntity.ok(orderMapper.orderFromCart(cartId));
         }
     }
 

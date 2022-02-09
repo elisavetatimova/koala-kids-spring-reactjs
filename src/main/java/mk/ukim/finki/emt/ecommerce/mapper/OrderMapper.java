@@ -47,4 +47,8 @@ public class OrderMapper {
     public OrderResponse postOrder(OrderRequest orderRequest) {
         return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequest), orderRequest.getProductsId()));
     }
+
+    public OrderResponse orderFromCart(Long cartId) {
+        return convertToResponseDto(orderService.createOrderFromCart(cartId));
+    }
 }

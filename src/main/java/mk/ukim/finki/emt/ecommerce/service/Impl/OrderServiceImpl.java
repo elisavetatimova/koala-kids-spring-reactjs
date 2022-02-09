@@ -1,8 +1,10 @@
 package mk.ukim.finki.emt.ecommerce.service.Impl;
 
+import mk.ukim.finki.emt.ecommerce.domain.Cart;
 import mk.ukim.finki.emt.ecommerce.domain.Order;
 import mk.ukim.finki.emt.ecommerce.domain.OrderItem;
 import mk.ukim.finki.emt.ecommerce.domain.Product;
+import mk.ukim.finki.emt.ecommerce.repository.CartRepository;
 import mk.ukim.finki.emt.ecommerce.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ecommerce.repository.OrderRepository;
 import mk.ukim.finki.emt.ecommerce.repository.ProductRepository;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
 
@@ -31,6 +34,37 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrderByEmail(String email) {
         return orderRepository.findOrderByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public Order createOrderFromCart(Long cartId) {
+
+        final Cart cart = cartRepository.getOne(cartId);
+        final Order order = new Order();
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (OrderItem cartOrderItem : cart.getOrderItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setQuantity(cartOrderItem.getQuantity());
+            orderItem.setProduct(cartOrderItem.getProduct());
+            orderItem.setAmount((cartOrderItem.getAmount()));
+            orderItem.setQuantity(cartOrderItem.getQuantity());
+            orderItemList.add(orderItem);
+            orderItemRepository.save(orderItem);
+        }
+        order.getOrderItems().addAll(orderItemList);
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setFirstName(cart.getFirstName());
+        order.setLastName(cart.getLastName());
+        order.setCity(cart.getCity());
+        order.setAddress(cart.getAddress());
+        order.setPostIndex(cart.getPostIndex());
+        order.setEmail(cart.getEmail());
+        order.setPhoneNumber(cart.getPhoneNumber());
+        orderRepository.save(order);
+
+        return order;
     }
 
     @Override

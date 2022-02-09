@@ -32,6 +32,13 @@ public interface OrderService {
     Order postOrder(Order validOrder, Map<Long, Long> productsId);
 
     /**
+     * Creates an order from cart
+     * @param cartId cartId
+     * @return
+     */
+    Order createOrderFromCart(final Long cartId);
+
+    /**
      * Deletes an order
      * @param orderId
      * @return
