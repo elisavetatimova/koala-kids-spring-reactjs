@@ -1,4 +1,4 @@
-# Koala Kids Perfume web store
+# Koala Kids web store
 
 E-commerce project developed using Spring Boot and React.js as part of my university project<br>
 
